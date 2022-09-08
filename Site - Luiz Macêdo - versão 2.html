@@ -281,5 +281,27 @@
     </script>
 
     <hr class="featurette-divider">
+
+    <!-- Terceira parte do site -->
+    <div class="container marketing">   
+      <div class="row featurette">
+        <div class="col-center" style="margin-top: 20px; margin-left: 90px;">
+            <h2 class="featurette-heading">Calcule o tempo do seu download</h2>
+          <form>
+            <span class="lead">Tamanho do arquivo (em MB):</span>
+            <input style="width: 45px; margin-bottom: 5px;" type="number" id="tabuadaDo" name="tabuadaDo">
+          </br>
+            <span class="lead">Velocidade de sua internet (em Mbps):</span>
+            <input style="width: 45px; margin-bottom: 5px;" type="number" id="comeco" name="comeco">
+          </form>
+          </br>
+          <button onclick="montarTabuada()" style="margin-left: 80px;" type="button" id="montar-tabuada">
+            Calcular
+          </button>
+          </br>
+            <table id="tabela" class="table table-secondary" style="margin-top: 50px; width: auto;"></table>    
+        </div>
+      </div>
+    </div>
     </body>
 </html>
