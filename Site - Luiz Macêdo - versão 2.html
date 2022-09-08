@@ -222,12 +222,13 @@
           <table id="tabela" class="table table-secondary" style="margin-top: 50px; width: auto;"></table>    
       </div>
       <div class="col-md-7" style="margin-top: 20px;">
-        <h2 class="featurette-heading" style="margin-left: 250px;"><span class="text-muted">Instruções da tabuada</span></h2>
-        <ul class="lead" style="margin-left: 250px;">
+        <h2 class="featurette-heading" style="margin-left: 188px;"><span class="text-muted">Instruções da tabuada</span></h2>
+        <ul class="lead" style="margin-left: 188px;">
           <li style="margin-top: 10px;">Utilize apenas números inteiros</li>
           <li style="margin-top: 10px;">Há um limite de 20 linhas geradas</li>
         </ul>
       </div>
+    </div>
     </div>
 
     <script>
@@ -236,7 +237,7 @@
         var tabuadaDo = parseInt(document.getElementById("tabuadaDo").value);
         var comeco = parseInt(document.getElementById("comeco").value);
         var final = parseInt(document.getElementById("final").value);
-        var linhas = ["Linha inicial"];
+        let linhas = ["Linha inicial"];
         if (comeco > final){
           alert ("Erro: valor final maior que valor inicial!");
         }
@@ -285,23 +286,82 @@
     <!-- Terceira parte do site -->
     <div class="container marketing">   
       <div class="row featurette">
-        <div class="col-center" style="margin-top: 20px; margin-left: 90px;">
+        <div class="col-md-6" style="margin-top: 20px; margin-left: 90px;">
             <h2 class="featurette-heading">Calcule o tempo do seu download</h2>
           <form>
             <span class="lead">Tamanho do arquivo (em MB):</span>
-            <input style="width: 45px; margin-bottom: 5px;" type="number" id="tabuadaDo" name="tabuadaDo">
+            <input style="width: 55px; margin-bottom: 5px;" type="number" step="0.01" min="0" id="tamanho" name="tamanho">
           </br>
             <span class="lead">Velocidade de sua internet (em Mbps):</span>
-            <input style="width: 45px; margin-bottom: 5px;" type="number" id="comeco" name="comeco">
+            <input style="width: 55px; margin-bottom: 5px;" type="number" step="0.01" min="0" id="velocidade" name="velocidade">
           </form>
           </br>
-          <button onclick="montarTabuada()" style="margin-left: 80px;" type="button" id="montar-tabuada">
+          <button onclick="calcularTempoDeDownload()" style="margin-left: 80px;" type="button" id="calcular-tempo">
             Calcular
           </button>
           </br>
-            <table id="tabela" class="table table-secondary" style="margin-top: 50px; width: auto;"></table>    
+          <p class="lead" style="text-align: justify; margin-top: 25px;" id="resultado"></p>   
+        </div>
+        <div class="col-md-5" style="margin-top: 20px;">
+          <h2 class="featurette-heading"><span class="text-muted">Instruções da calculadora</span></h2>
+          <ul class="lead">
+            <li style="margin-top: 10px;">Não utilize números negativos</li>
+            <li style="margin-top: 10px;">Há um limite de 20 linhas geradas</li>
+          </ul>
         </div>
       </div>
     </div>
+
+    <script>
+      function calcularTempoDeDownload() {
+        document.getElementById("resultado").innerHTML = ''
+        var tamanho = parseFloat(document.getElementById("tamanho").value);
+        var velocidade = parseFloat(document.getElementById("velocidade").value);
+        if (((tamanho || velocidade) <= 0)||(isNaN(tamanho))||(isNaN(velocidade))){
+          alert("Insira valores válidos!")
+        } 
+        else{
+          var resultado = [];
+          var segundos = (parseFloat(Math.fround(tamanho/velocidade))).toFixed(2);
+
+          var dias = Math.floor(segundos / (3600*24));
+          segundos  -= dias*3600*24;
+          var horas   = Math.floor(segundos / 3600);
+          segundos  -= horas*3600;
+          var minutos = Math.floor(segundos / 60);
+          segundos  -= minutos*60;
+          if (dias === 0){
+            if (horas === 0){
+              if (minutos === 0){
+                if (segundos === 0){
+                  return document.getElementById("resultado").innerHTML +=('Como você pretende baixar isso?');
+                }
+                else {
+                  resultado.push(segundos+" segundos");
+                }
+              }
+              else {
+                resultado.push(minutos+" minutos e "+segundos+" segundos");
+              }
+            }
+            else {
+              resultado.push(horas+" horas, "+minutos+" minutos e "+segundos+" segundos");
+            }
+          }
+          else {
+            if (dias === Infinity){
+              return document.getElementById("resultado").innerHTML +=('Seu tempo de download é <b>infinito</b>. Recomendo assinar um plano de internet melhor.');
+            }
+            else{
+              resultado.push(dias+" dias, "+horas+" horas, "+minutos+" minutos e "+segundos+" segundos");
+            }
+          }
+          document.getElementById("resultado").innerHTML +=('Seu tempo de download é de '+'<b>'+resultado+'</b>');
+        }
+      }
+    </script>
+
+    <hr class="featurette-divider">
+
     </body>
 </html>
